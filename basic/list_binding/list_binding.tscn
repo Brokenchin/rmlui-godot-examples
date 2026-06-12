@@ -14,3 +14,11 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+document_path = "res://addons/rmlui-godot/examples/basic/list_binding/list_binding.rml"
+font_paths = PackedStringArray("res://addons/rmlui-godot/examples/fonts/NotoSans-Regular.ttf", "res://addons/rmlui-godot/examples/fonts/NotoSans-Bold.ttf")
+editor_mock_data = {
+"inventory": {
+"item_count": 3,
+"items": ["Sword", "Shield", "Potion"]
+}
+}

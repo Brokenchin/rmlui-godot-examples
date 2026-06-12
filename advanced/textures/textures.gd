@@ -10,16 +10,12 @@ var _sprite_names: Array = [
 var _cycle_timer: float = 0.0
 
 func _ready() -> void:
+	# Inspector-configured document (editor preview shows a mock inventory).
+	# The document loads AFTER _ready — the model created here binds on load.
 	_rml = $RmlContext
-	_rml.load_font_face("res://addons/rmlui-godot/examples/fonts/NotoSans-Regular.ttf")
-	_rml.load_font_face("res://addons/rmlui-godot/examples/fonts/NotoSans-Bold.ttf")
-
-	# Set up data model for data-bound sprites
 	_rml.create_data_model("inventory")
 	_rml.bind_data_variable("inventory", "selected_item", "item-sword")
 	_rml.bind_data_array("inventory", "items", _sprite_names.duplicate())
-
-	_rml.load_document("res://addons/rmlui-godot/examples/advanced/textures/textures.rml")
 
 
 func _process(delta: float) -> void:

@@ -153,14 +153,12 @@ func _setup_rml() -> void:
 		push_warning("RmlContext node not found")
 		return
 
-	#_rml.load_font_face(FONT_PATH_REGULAR)
-	_rml.load_font_face(FONT_PATH_MEDIUM)
-	_rml.load_document(RML_DOC_PATH)
-
-	_populate_rml_from_store()
-
+	# Document + font come from the inspector; the grid skeleton renders in
+	# the editor. The document loads one frame after _ready — wait, then
+	# populate and wire the runtime state.
 	await get_tree().process_frame
 
+	_populate_rml_from_store()
 	_register_rml_drag_sources()
 	_rml.rml_drag_started.connect(_on_rml_drag_started)
 

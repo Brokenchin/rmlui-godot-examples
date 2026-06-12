@@ -6,10 +6,10 @@ var _active_on: bool = false
 var _rml_set: bool = false
 
 func _ready() -> void:
+	# Document + fonts come from the inspector; the document loads one frame
+	# after _ready, so wait for it before attaching element listeners.
 	var rml: RmlContext = $RmlContext
-	rml.load_font_face("res://addons/rmlui-godot/examples/fonts/NotoSans-Regular.ttf")
-	rml.load_font_face("res://addons/rmlui-godot/examples/fonts/NotoSans-Bold.ttf")
-	rml.load_document("res://addons/rmlui-godot/examples/basic/events/events.rml")
+	await get_tree().process_frame
 
 	# --- Click event listeners ---
 	rml.add_event_listener("btn-a", "click", _on_button_click)

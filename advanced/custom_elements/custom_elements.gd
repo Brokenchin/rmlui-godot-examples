@@ -6,14 +6,13 @@ var _log_lines: Array[String] = []
 var _document_loaded: bool = false
 
 func _ready() -> void:
+	# Inspector-configured document, which loads AFTER _ready — registering
+	# the custom tags here means the load instantiates them with factories
+	# already in place.
 	var rml: RmlContext = $RmlContext
-	rml.load_font_face("res://addons/rmlui-godot/examples/fonts/NotoSans-Regular.ttf")
-	rml.load_font_face("res://addons/rmlui-godot/examples/fonts/NotoSans-Bold.ttf")
-
 	rml.register_custom_element("test-widget", _on_widget_created, _on_widget_attr_changed)
 	rml.register_custom_element("stat-bar", _on_stat_bar_created)
-
-	rml.load_document("res://addons/rmlui-godot/examples/advanced/custom_elements/custom_elements.rml")
+	await get_tree().process_frame  # document loads deferred
 	_document_loaded = true
 
 

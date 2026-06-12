@@ -5,13 +5,8 @@ extends Control
 
 
 func _ready() -> void:
-	var font_path := "res://addons/rmlui-godot/examples/fonts/NotoSans-Regular.ttf"
-	ctx_a.load_font_face(font_path)
-	ctx_b.load_font_face(font_path)
-
-	ctx_a.load_document("res://addons/rmlui-godot/examples/advanced/drag_and_drop/drag.rml")
-	ctx_b.load_document("res://addons/rmlui-godot/examples/advanced/drag_and_drop/drag.rml")
-
+	# Documents + fonts come from the inspector (both contexts render in the
+	# editor); drag registration works on the already-loaded elements.
 	await get_tree().process_frame
 
 	for ctx in [ctx_a, ctx_b]:

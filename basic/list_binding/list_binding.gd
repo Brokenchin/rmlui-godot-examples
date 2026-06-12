@@ -3,10 +3,9 @@ extends Control
 var _items: Array = ["Sword", "Shield", "Potion"]
 
 func _ready() -> void:
+	# Inspector-configured document (renders in editor via editor_mock_data).
+	# The document loads AFTER _ready — models created here bind on load.
 	var rml: RmlContext = $RmlContext
-	rml.load_font_face("res://addons/rmlui-godot/examples/fonts/NotoSans-Regular.ttf")
-	rml.load_font_face("res://addons/rmlui-godot/examples/fonts/NotoSans-Bold.ttf")
-
 	rml.create_data_model("inventory")
 	rml.bind_data_variable("inventory", "item_count", _items.size())
 	rml.bind_data_array("inventory", "items", _items.duplicate())
@@ -15,7 +14,6 @@ func _ready() -> void:
 	rml.bind_data_event("inventory", "on_clear", _on_clear)
 	rml.bind_data_event("inventory", "on_shuffle", _on_shuffle)
 
-	rml.load_document("res://addons/rmlui-godot/examples/basic/list_binding/list_binding.rml")
 
 
 func _update_count() -> void:

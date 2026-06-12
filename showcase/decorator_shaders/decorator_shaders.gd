@@ -7,9 +7,9 @@ var _rml: RmlContext
 
 
 func _ready() -> void:
+	# Inspector-configured document, which loads AFTER _ready — shader
+	# decorators registered here exist before the document's styles resolve.
 	_rml = $RmlContext
-	_rml.load_font_face("res://addons/rmlui-godot/examples/fonts/NotoSans-Regular.ttf")
-	_rml.load_font_face("res://addons/rmlui-godot/examples/fonts/NotoSans-Bold.ttf")
 
 	# Path 1: bare Shader — the decorator uses the shader's default uniforms.
 	_rml.register_decorator_shader("plasma", PLASMA)
@@ -26,4 +26,3 @@ func _ready() -> void:
 	fast.set_shader_parameter("color_b", Color(0.25, 1.0, 0.55))
 	_rml.register_decorator_material("plasma_fast", fast)
 
-	_rml.load_document("res://addons/rmlui-godot/examples/showcase/decorator_shaders/decorator_shaders.rml")
