@@ -1,0 +1,17 @@
+<rml>
+<head>
+	<link type="text/rcss" href="res://addons/rmlui-godot/base.rcss" />
+	<style>
+		body { font-family: "Noto Sans"; color: #f0e6ff; background-color: #2a1c3e; padding: 14px; border-radius: 8px; }
+		h2 { color: #d6b3ff; font-size: 18px; margin-bottom: 10px; }
+		#drop-slot {
+			width: 120px; height: 120px; background-color: #33334d; border-radius: 6px;
+			text-align: center; color: #c9c9e0;
+		}
+	</style>
+</head>
+<body>
+	<h2>Target panel</h2>
+	<div id="drop-slot">drop here</div>
+</body>
+</rml>

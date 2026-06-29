@@ -1,0 +1,17 @@
+<rml>
+<head>
+	<link type="text/rcss" href="res://addons/rmlui-godot/base.rcss" />
+	<style>
+		body { font-family: "Noto Sans"; color: #d8e6ff; background-color: #1b2742; padding: 14px; border-radius: 8px; }
+		h2 { color: #aad4ff; font-size: 18px; margin-bottom: 10px; }
+		#drag-item {
+			width: 96px; height: 96px; background-color: #cc8844; border-radius: 6px;
+			text-align: center; color: #2a1500;
+		}
+	</style>
+</head>
+<body>
+	<h2>Source panel</h2>
+	<div id="drag-item">Sword<br/>(drag me)</div>
+</body>
+</rml>

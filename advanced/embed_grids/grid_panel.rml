@@ -1,0 +1,37 @@
+<rml>
+<head>
+	<link type="text/rcss" href="res://addons/rmlui-godot/base.rcss" />
+	<style>
+		body { font-family: "Noto Sans"; font-size: 15px; color: #d8e6ff; background-color: #1b2742; padding: 14px; border-radius: 8px; width: 200px; }
+		h2 { font-size: 18px; color: #aad4ff; margin-bottom: 8px; }
+		.cell { padding: 6px 10px; margin-bottom: 4px; background-color: #2a3a5e; border-radius: 4px; }
+		.count { color: #9fb6e0; margin: 8px 0; }
+		button {
+			display: inline-block; font-family: "Noto Sans"; font-size: 13px; color: #ffffff;
+			background-color: #2f7d4f; padding: 6px 12px; border-radius: 5px; cursor: pointer;
+		}
+		button:hover { background-color: #379159; }
+	</style>
+<script>
+# Reusable grid component. `data` is injected automatically — a handle to THIS
+# instance's own (namespaced) model — so two mounts of this exact file never
+# collide. The parent feeds initial data; this Add button drives the same model.
+var rml_context
+var data
+
+func _add(_e):
+	if data != null:
+		var n: int = data.array_size("items") + 1
+		data.push("items", "item %d" % n)
+		data.set_value("count", n)
+</script>
+</head>
+<body data-model="grid">
+	<h2>{{ title }}</h2>
+	<div id="items">
+		<div data-for="it : items" class="cell">{{ it }}</div>
+	</div>
+	<div class="count">{{ count }} items</div>
+	<button onclick="gdscript:_add">Add</button>
+</body>
+</rml>

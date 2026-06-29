@@ -1,0 +1,27 @@
+<rml>
+<head>
+	<link type="text/rcss" href="res://addons/rmlui-godot/base.rcss" />
+	<style>
+		body { font-family: "Noto Sans"; font-size: 15px; color: #f0e6ff; background-color: #2a1c3e; padding: 14px; border-radius: 8px; }
+		h2 { font-size: 19px; color: #d6b3ff; margin-bottom: 10px; }
+		.row { padding: 5px 8px; margin-bottom: 4px; background-color: #3e2b56; border-radius: 4px; }
+		.count { margin: 8px 0; color: #c9a6ff; }
+		button {
+			display: inline-block; font-family: "Noto Sans"; font-size: 13px; color: #ffffff;
+			background-color: #6b3fa0; padding: 6px 12px; margin-right: 6px; border-radius: 5px; cursor: pointer;
+		}
+		button:hover { background-color: #7d4cb8; }
+	</style>
+</head>
+<!-- data-model / data-for / data-event all work INSIDE the embed: the model "inv"
+     is owned by the coordinator (embed_showcase.gd) and rendered here. -->
+<body id="inventory-root" data-model="inv">
+	<h2>Inventory</h2>
+	<div data-for="item : items">
+		<div class="row">{{ item }}</div>
+	</div>
+	<div class="count">Items: {{ item_count }}</div>
+	<button data-event-click="on_add">Add</button>
+	<button data-event-click="on_remove">Remove</button>
+</body>
+</rml>

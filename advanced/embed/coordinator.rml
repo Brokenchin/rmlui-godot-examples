@@ -1,0 +1,59 @@
+<rml>
+<head>
+	<title>Embed Showcase</title>
+	<link type="text/rcss" href="res://addons/rmlui-godot/base.rcss" />
+	<style>
+		body { font-family: "Noto Sans"; font-size: 16px; color: #e8e8ec; background-color: #161a22; padding: 20px; }
+		h1 { font-size: 26px; color: #8fc6ff; margin-bottom: 4px; }
+		p.hint { color: #8a93a6; margin-bottom: 14px; }
+		.toolbar { margin-bottom: 16px; }
+		button {
+			display: inline-block; font-family: "Noto Sans"; font-size: 14px; color: #ffffff;
+			background-color: #2d6cdf; padding: 8px 14px; margin-right: 8px; border-radius: 6px; cursor: pointer;
+		}
+		button:hover { background-color: #3f80f0; }
+
+		/* The shared layout domain: a flex row in THIS document. Each <embed-doc>
+		   is an ordinary flex item, so the panels sit beside each other and reflow
+		   instead of overlapping. */
+		#row { display: flex; flex-direction: row; align-items: flex-start; }
+		embed-doc { margin-right: 14px; }
+		#character { width: 240px; }
+		#character.big { width: 460px; }   /* toggled — the inventory reflows beside it */
+		#inventory { width: 260px; }
+	</style>
+<script>
+# Coordinator doc-script: owns the composition and drives the embeds.
+var rml_context
+var big := false
+
+func _toggle(_e):
+	big = not big
+	# Toggle a class on the <embed-doc> host (an ordinary layout box here): the
+	# character panel grows and the inventory reflows beside it — overlap resolved
+	# by the engine because both panels share ONE layout domain.
+	rml_context.set_element_class("character", "big", big)
+
+func _damage(_e):
+	# Reach the embedded panel's own <script> instance and call it directly
+	# (parent -> child, the recommended typed data path).
+	var c = rml_context.get_embedded_script("character")
+	if c != null:
+		c.take_damage(12)
+</script>
+</head>
+<body>
+	<h1>Composable widgets — one shared layout domain</h1>
+	<p class="hint">character_panel.rml and inventory_panel.rml are separate documents embedded
+	as real subtrees. "Resize" grows the character panel and the inventory reflows beside it;
+	"Damage" calls into the character panel's own script; the inventory uses data-for inside the embed.</p>
+	<div class="toolbar">
+		<button onclick="gdscript:_toggle">Resize character panel</button>
+		<button onclick="gdscript:_damage">Damage character</button>
+	</div>
+	<div id="row">
+		<embed-doc id="character" src="character_panel.rml"/>
+		<embed-doc id="inventory" src="inventory_panel.rml"/>
+	</div>
+</body>
+</rml>

@@ -1,0 +1,19 @@
+<rml>
+<head>
+	<title>Duplicate Grids</title>
+	<link type="text/rcss" href="res://addons/rmlui-godot/base.rcss" />
+	<style>
+		body { font-family: "Noto Sans"; font-size: 16px; color: #e8e8ec; background-color: #161a22; padding: 20px; }
+		h1 { font-size: 24px; color: #8fc6ff; margin-bottom: 4px; }
+		p.hint { color: #8a93a6; margin-bottom: 16px; }
+		#lanes { display: flex; flex-direction: row; }
+		embed-doc { margin-right: 16px; }
+	</style>
+</head>
+<body>
+	<h1>Same grid, two instances, independent data</h1>
+	<p class="hint">grid_panel.rml is mounted twice with model="grid" and fed different data — its
+	data-for renders each independently. Each grid's Add button pushes to that instance only.</p>
+	<div id="lanes"></div>
+</body>
+</rml>

@@ -1,0 +1,46 @@
+<rml>
+<head>
+	<link type="text/rcss" href="res://addons/rmlui-godot/base.rcss" />
+	<style>
+		body { font-family: "Noto Sans"; font-size: 15px; color: #d8e6ff; background-color: #1b2742; padding: 14px; border-radius: 8px; }
+		h2 { font-size: 19px; color: #aad4ff; margin-bottom: 10px; }
+		.label { margin-top: 10px; margin-bottom: 4px; }
+		.track { height: 16px; background-color: #0e1526; border-radius: 4px; }
+		.fill { height: 16px; border-radius: 4px; background-color: #46c46a; }
+		button {
+			display: inline-block; font-family: "Noto Sans"; font-size: 13px; color: #ffffff;
+			background-color: #2f7d4f; padding: 6px 12px; margin-top: 12px; border-radius: 5px; cursor: pointer;
+		}
+		button:hover { background-color: #379159; }
+	</style>
+<script>
+# This panel's own GDScript instance, independent of the coordinator and the
+# inventory. `rml_context` (the coordinator node) is injected automatically.
+var rml_context
+var hp := 100
+
+func _on_load(_e):
+	_refresh()
+
+func take_damage(amount):
+	hp = max(0, hp - amount)
+	_refresh()
+
+# Handler for the in-embed button below — runs HERE, in the embed's own script.
+func _heal(_e):
+	hp = min(100, hp + 15)
+	_refresh()
+
+func _refresh():
+	if rml_context != null:
+		rml_context.set_element_property("char-hp-fill", "width", "%d%%" % hp)
+		rml_context.set_element_inner_rml("char-hp-text", "HP %d / 100" % hp)
+</script>
+</head>
+<body id="character-root" onload="gdscript:_on_load">
+	<h2>Character</h2>
+	<div id="char-hp-text" class="label">HP 100 / 100</div>
+	<div class="track"><div id="char-hp-fill" class="fill"></div></div>
+	<button onclick="gdscript:_heal">Heal (panel's own button)</button>
+</body>
+</rml>
