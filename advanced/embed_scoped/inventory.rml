@@ -1,0 +1,91 @@
+<rml>
+<head>
+	<title>Inventory Widget</title>
+	<link type="text/rcss" href="res://addons/rmlui-godot/base.rcss" />
+	<style>
+		body { font-family: "Noto Sans"; color: #e8eefc; font-size: 14px; }
+
+		/* The slot grid is rendered BY ID from the <script> below. */
+		#grid {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			width: 200px;
+			min-height: 64px;
+			padding: 6px;
+			background-color: #141d33;
+			border: 2px #2c3a5c;
+		}
+		#grid:drag-over {
+			background-color: #1b2c4d;
+			border: 2px #5a8bd6;
+		}
+
+		.slot {
+			width: 52px;
+			height: 52px;
+			margin: 4px;
+			background-color: #34507f;
+			border: 2px #5e82bd;
+			color: #ffffff;
+			font-size: 17px;
+			font-weight: bold;
+			text-align: center;
+			padding-top: 15px;
+			cursor: pointer;
+			drag: clone;
+		}
+		.slot:hover { background-color: #4368a6; border-color: #9dc0ff; }
+		.slot:drag { visibility: hidden; }
+
+		#count  { margin-top: 8px; font-size: 12px; color: #8fa6cf; }
+		#status { margin-top: 2px; font-size: 13px; color: #57e08f; min-height: 18px; }
+	</style>
+	<script>
+	## A self-contained doc-script inventory widget. It renders its slots BY ID and
+	## wires drag/drop BY ID through `rml_context` — written exactly as it would run
+	## standalone (load_document). Mounted twice in one context via <embed-doc>
+	## (issue #59), each instance drives its OWN subtree with zero source changes:
+	## drag an item out of one inventory and drop it on the other — only that other
+	## inventory grows, because "grid"/"slot_N" resolve inside the calling embed.
+	var rml_context
+	var items: Array = ["SW", "SH", "PO", "GO"]
+	var registered := 0
+	var received := 0
+
+	func _on_load(_event):
+		_render()
+		rml_context.register_drop_target("grid", _on_drop)
+		rml_context.set_element_inner_rml("status", "Drag an item to the other inventory.")
+
+	# Re-renders the grid from `items` (set_element_inner_rml by id) and registers a
+	# drag source for any newly-added slot. Existing slot_N registrations keep
+	# resolving after a re-render — the bridge looks the element up by id at drag time.
+	func _render():
+		var html := ""
+		for i in items.size():
+			html += "<div class='slot' id='slot_%d'>%s</div>" % [i, items[i]]
+		rml_context.set_element_inner_rml("grid", html)
+		while registered < items.size():
+			rml_context.register_drag_source("slot_%d" % registered, _payload)
+			registered += 1
+		rml_context.set_element_inner_rml("count", "%d items" % items.size())
+
+	func _payload(element_id: String, _pos: Vector2) -> Dictionary:
+		var idx := int(element_id.replace("slot_", ""))
+		return {"label": items[idx] if idx < items.size() else "?"}
+
+	func _on_drop(_target_id: String, data: Variant) -> void:
+		received += 1
+		var label: String = str(data.get("label", "?"))
+		items.append(label)
+		_render()
+		rml_context.set_element_inner_rml("status", "Received '%s' (drop #%d)" % [label, received])
+	</script>
+</head>
+<body onload="gdscript:_on_load">
+	<div id="grid"></div>
+	<div id="count"></div>
+	<div id="status"></div>
+</body>
+</rml>

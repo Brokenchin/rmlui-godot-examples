@@ -1,0 +1,41 @@
+<rml>
+<head>
+	<title>Embed an Existing Widget Unchanged</title>
+	<link type="text/rcss" href="res://addons/rmlui-godot/base.rcss" />
+	<style>
+		body { background-color: #14141f; font-family: "Noto Sans"; color: #ffffff; }
+		#header { padding: 18px 22px 6px 22px; }
+		#title { font-size: 21px; font-weight: bold; color: #a0c4ff; }
+		#subtitle { font-size: 13px; color: #8090b0; margin-top: 4px; }
+
+		#row { display: flex; flex-direction: row; }
+
+		.bay { margin: 12px; }
+		.bay-title { font-size: 14px; font-weight: bold; color: #a0c4ff; margin: 0 0 4px 22px; }
+
+		/* The SAME pre-#59 widget (inline_drag.rml) mounted twice, BYTE-FOR-BYTE
+		   unchanged. Its #panel is position:absolute, so each host reserves room and
+		   becomes the panel's containing block (the embedded doc is position:relative
+		   once mounted). Identical internal ids — item-1/2/3, drop-zone, status —
+		   resolve inside each embed thanks to issue #59. */
+		embed-doc { display: block; width: 360px; height: 300px; }
+	</style>
+</head>
+<body>
+	<div id="header">
+		<div id="title">Existing widget, embedded unchanged &times;2 &mdash; issue #59</div>
+		<div id="subtitle">Both bays mount the SAME inline_drag.rml (a pre-#59 doc-script widget). Drag a tile from one bay onto the OTHER bay's drop zone.</div>
+	</div>
+
+	<div id="row">
+		<div class="bay">
+			<div class="bay-title">Bay A (embed: drag_a)</div>
+			<embed-doc id="drag_a" src="res://addons/rmlui-godot/examples/advanced/inline_drag/inline_drag.rml"/>
+		</div>
+		<div class="bay">
+			<div class="bay-title">Bay B (embed: drag_b)</div>
+			<embed-doc id="drag_b" src="res://addons/rmlui-godot/examples/advanced/inline_drag/inline_drag.rml"/>
+		</div>
+	</div>
+</body>
+</rml>
